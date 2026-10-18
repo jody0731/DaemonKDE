@@ -1,0 +1,80 @@
+// Hand-set colors for "Daemon-2.0 Light", applied by build.py after the dark theme (with overrides.jsonc)
+// has been run through ../light/palette.py. Same layout as the dark one, so it matches Dolphin under
+// Daemon 2.0 Light: pure white panes and chrome, neutral grey bars, true-red frames #e3121f,
+// near-black ink text, pale-cyan selection (the scales are in ../light/palette.py).
+// Edit, then run: python3 build.py && code --install-extension daemon-2-0.vsix --force
+{
+    // text: one near-black ink everywhere, softer for secondary text
+    "foreground": "#0e1d22",
+    "editor.foreground": "#0e1d22",
+    "descriptionForeground": "#4b5960",
+    "sideBar.foreground": "#0e1d22",
+    "activityBar.foreground": "#009aa8",
+    "activityBar.inactiveForeground": "#7a838c",
+    "tab.inactiveForeground": "#4b5960",
+    "statusBar.foreground": "#0e1d22",
+
+    // content panes: pure white
+    "editor.background": "#ffffff",
+    "editorGutter.background": "#ffffff",
+    "minimap.background": "#f6f7f8",
+    "editor.lineHighlightBackground": "#e8fafc",
+    "editor.lineHighlightBorder": "#e8fafc",
+    "editorLineNumber.foreground": "#a9b0b7",
+    "editorLineNumber.activeForeground": "#007c87",
+    "terminal.background": "#ffffff",
+    "terminal.foreground": "#0e1d22",
+    "panel.background": "#ffffff",
+    "sideBar.background": "#ffffff",
+
+    // selection: pale cyan with ink on top, like Dolphin
+    "editor.selectionBackground": "#c9f2f6",
+    "editor.inactiveSelectionBackground": "#e8fafc",
+    "selection.background": "#c9f2f6",
+    "list.activeSelectionBackground": "#c9f2f6",
+    "list.activeSelectionForeground": "#0e1d22",
+    "list.inactiveSelectionBackground": "#e8fafc",
+    "list.focusBackground": "#c9f2f6",
+    "list.hoverBackground": "#f6f7f8",
+
+    // chrome: white, with neutral grey bars
+    "activityBar.background": "#f6f7f8",
+    "editorGroupHeader.tabsBackground": "#f6f7f8",
+    "tab.inactiveBackground": "#f6f7f8",
+    "tab.activeBackground": "#ffffff",
+    "statusBar.background": "#f6f7f8",
+    "menu.background": "#ffffff",
+    "titleBar.activeBackground": "#ffffff",   // the KDE frame above is already red; one red band is enough
+    "titleBar.activeForeground": "#0e1d22",
+    "titleBar.inactiveBackground": "#f6f7f8",
+    "titleBar.border": "#e3121f",
+    "panelSectionHeader.background": "#eef0f2",
+    "tab.inactiveModifiedBorder": "#0b6fb0",
+
+    // drag-and-drop targets: translucent, not a solid block
+    "editorGroup.dropBackground": "#00aebc30",
+    "list.dropBackground": "#00aebc30",
+
+    // scrollbars: visible cyan, translucent
+    "scrollbarSlider.background": "#00aebc40",
+    "scrollbarSlider.hoverBackground": "#00aebc70",
+    "scrollbarSlider.activeBackground": "#00aebca0",
+
+    // terminal ANSI colors, matching the Konsole "Daemon-2.0 Light" scheme
+    "terminal.ansiBlack": "#1b2529",
+    "terminal.ansiRed": "#c40f1a",
+    "terminal.ansiGreen": "#00897a",
+    "terminal.ansiYellow": "#8f7400",
+    "terminal.ansiBlue": "#4b3bb5",
+    "terminal.ansiMagenta": "#a8199f",
+    "terminal.ansiCyan": "#c43b1f",
+    "terminal.ansiWhite": "#13804a",
+    "terminal.ansiBrightBlack": "#56636a",
+    "terminal.ansiBrightRed": "#e3121f",
+    "terminal.ansiBrightGreen": "#00a693",
+    "terminal.ansiBrightYellow": "#a88a00",
+    "terminal.ansiBrightBlue": "#6552d0",
+    "terminal.ansiBrightMagenta": "#c02fb8",
+    "terminal.ansiBrightCyan": "#de5233",
+    "terminal.ansiBrightWhite": "#179c5b"
+}

@@ -1,0 +1,10 @@
+# per-machine install records (they hold this device's old settings and paths)
+/backup/
+# private working notes (machine details, test history); README.md is the public description
+CLAUDE.md
+# build and test leftovers
+__pycache__/
+*.pyc
+*.tmp
+*.daemon-tmp
+mpv-shot*

@@ -1,0 +1,15 @@
+[kdeglobals][General]
+ColorScheme=Daemon2Light
+
+[kdeglobals][Icons]
+Theme=Daemon-Icons-Light
+
+[kdeglobals][KDE]
+widgetStyle=kvantum
+
+[plasmarc][Theme]
+name=Daemon-2.0-Light
+
+[kwinrc][org.kde.kdecoration2]
+library=org.kde.kwin.aurorae
+theme=__aurorae__svg__daemon-2.0-light

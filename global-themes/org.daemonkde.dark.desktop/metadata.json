@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Mathis Paquet (Daemon 2.0)"
+            },
+            {
+                "Name": "DaemonKDE (light variant, packaging)"
+            }
+        ],
+        "Category": "",
+        "Description": "Cyberpunk 2077 inspired: neon cyan and red on a black-maroon desktop",
+        "Id": "org.daemonkde.dark.desktop",
+        "License": "GPL-3.0",
+        "Name": "Daemon 2.0",
+        "Website": "https://github.com/MathisP75/daemon-kde-mk2"
+    },
+    "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Daemon;Cyberpunk;Dark;",
+    "X-Plasma-APIVersion": "2"
+}

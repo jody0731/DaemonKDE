@@ -1,0 +1,11 @@
+{
+    "KPackageStructure": "Wallpaper/Images",
+    "KPlugin": {
+        "Authors": [{ "Name": "Mathis Paquet" }],
+        "Description": "Daemon 2.0 wallpaper, rendered from the upstream SVG at 16:9 sizes",
+        "Id": "Daemon-2.0",
+        "License": "GPL-3.0",
+        "Name": "Daemon 2.0",
+        "Website": "https://github.com/MathisP75/daemon-kde-mk2"
+    }
+}

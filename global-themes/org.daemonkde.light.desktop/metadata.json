@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Mathis Paquet (Daemon 2.0)"
+            },
+            {
+                "Name": "DaemonKDE (light variant, packaging)"
+            }
+        ],
+        "Category": "",
+        "Description": "Daemon 2.0 on pure white: near-black text, true-red frames, bright cyan accents",
+        "Id": "org.daemonkde.light.desktop",
+        "License": "GPL-3.0",
+        "Name": "Daemon 2.0 Light",
+        "Website": "https://github.com/MathisP75/daemon-kde-mk2"
+    },
+    "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Daemon;Cyberpunk;Light;",
+    "X-Plasma-APIVersion": "2"
+}

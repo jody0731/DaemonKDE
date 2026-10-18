@@ -1,0 +1,63 @@
+// Changes applied on top of the author's Daemon-2.0 VS Code theme by build.py.
+// Goal: look like Dolphin under the Daemon KDE theme. Maroon chrome (toolbars, activity bar, status
+// bar), dark-blue content panes (editor, terminal, lists) and red borders between panes.
+// Colors are sampled from Dolphin screenshots: view #040a10, selected row #0c1217, row edges
+// #162429 / #274047, chrome #210e15, borders #ff5048, text #5df4fe.
+// Edit, then run: python3 build.py && code --install-extension daemon-2-0.vsix --force
+{
+    // content panes: dark blue
+    "editor.background": "#0c1217",
+    "editor.foldBackground": "#0c1217",
+    "editorPane.background": "#0c1217",
+    "editorGutter.background": "#040a10",
+    "minimap.background": "#040a10",
+    "editorStickyScroll.background": "#0c1217",
+    "editor.lineHighlightBackground": "#162429",
+    "editor.lineHighlightBorder": "#162429",
+    "editorWidget.background": "#040a10",
+    "editorWidget.border": "#274047",
+    "editorHoverWidget.background": "#040a10",
+    "editorHoverWidget.border": "#274047",
+    "editorSuggestWidget.background": "#040a10",
+    "editorSuggestWidget.border": "#274047",
+    "peekViewEditor.background": "#040a10",
+    "peekViewResult.background": "#0c1217",
+    "terminal.background": "#040a10",
+    "panel.background": "#0c1217",
+    "sideBar.background": "#0c1217",
+    "sideBarSectionHeader.background": "#040a10",
+    "sideBarStickyScroll.background": "#0c1217",
+    "breadcrumb.background": "#0c1217",
+    "input.background": "#040a10",
+    "input.border": "#274047",
+    "dropdown.background": "#040a10",
+    "dropdown.listBackground": "#040a10",
+    "quickInput.background": "#040a10",
+    "notifications.background": "#040a10",
+
+    // selection and focus like Dolphin's selected row
+    "list.activeSelectionBackground": "#162429",
+    "list.inactiveSelectionBackground": "#131d23",
+    "list.focusBackground": "#162429",
+    "list.hoverBackground": "#0d151a",
+    "list.focusOutline": "#274047",
+    "tab.activeBackground": "#0c1217",
+    "tab.activeBorderTop": "#ff5048",
+
+    // chrome stays maroon, like Dolphin's toolbar and places panel
+    "activityBar.background": "#210e15",
+    "editorGroupHeader.tabsBackground": "#210e15",
+    "tab.inactiveBackground": "#210e15",
+    "statusBar.background": "#210e15",
+    "statusBar.noFolderBackground": "#210e15",
+    "menu.background": "#210e15",
+
+    // red frames between panes
+    "sideBar.border": "#ff5048",
+    "panel.border": "#ff5048",
+    "editorGroup.border": "#ff5048",
+    "tab.border": "#ff5048",
+    "activityBar.border": "#ff5048",
+    "statusBar.border": "#ff5048",
+    "editorGroupHeader.tabsBorder": "#ff5048"
+}
