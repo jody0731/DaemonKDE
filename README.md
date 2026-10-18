@@ -39,8 +39,9 @@ bash ~/Projects/BrainStorm/DaemonKDE/install.sh
 ```
 
 Both themes are always installed, **Daemon 2.0 Light** is applied, and both are set as Plasma's
-light/dark pair for day/night switching. Log out and in once afterwards: that is when the Orbitron
-window titles appear and open apps pick up the new widget style.
+light/dark pair for day/night switching. Your fonts are left as they are (add `--fonts` for the
+theme's Rajdhani and Orbitron). Log out and in once afterwards: that is when open apps pick up the new
+widget style (and, with `--fonts`, when the Orbitron window titles appear).
 
 No sudo in the scripts: everything goes to `~/.local/share` and `~/.config`. Every file added and
 every setting changed (with its old value) is recorded in `backup/<timestamp>/state.txt`, and a
@@ -52,7 +53,7 @@ failure half-way rolls everything back.
 | `--auto` | turn day/night switching on right away |
 | `--reinstall` | already installed? uninstall, then install again; keeps your variant and day/night setting |
 | `--files-only` | copy the themes, change no settings (pick them yourself in System Settings) |
-| `--keep-fonts` | leave your UI fonts alone |
+| `--fonts` | also set the theme's fonts (Rajdhani UI, Hack fixed, Orbitron window titles); by default your fonts are left alone |
 | `--keep-wallpaper` | leave your wallpaper alone |
 | `--no-kvantum` | skip the Kvantum widget style |
 | `--keep-vscode` | don't install or select the VS Code theme (done only if `code` is installed) |
@@ -105,7 +106,7 @@ defaults layer that global themes write to: it is restored from the copy taken a
 | Konsole profile (default) | `Daemon` | `Daemon Light` |
 | VS Code color theme | `Daemon-2.0` | `Daemon-2.0 Light` |
 | Wallpaper | `Daemon 2.0` (its dark images) | `Daemon 2.0` (its light images) |
-| Fonts (both) | Rajdhani Medium 10 (UI), Hack 10 (fixed), Orbitron 8 (window titles) | |
+| Fonts (both, only with `--fonts`) | Rajdhani Medium 10 (UI), Hack 10 (fixed), Orbitron 8 (window titles) | |
 
 The global themes have no layout script, so applying one never touches your panels or widgets. They
 also leave the cursor, splash screen and wallpaper alone (the wallpaper package switches itself).

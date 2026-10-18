@@ -12,7 +12,8 @@
 #   --reinstall       already installed? uninstall first, then install again (after a `git pull`);
 #                     keeps the variant (or day/night switching) you were using
 #   --files-only      copy the themes but change no settings (pick them in System Settings)
-#   --keep-fonts      leave your UI fonts alone (Rajdhani/Orbitron are still installed)
+#   --fonts           also set the theme's fonts (Rajdhani UI, Hack fixed, Orbitron titles). Default: your fonts
+#                     are left alone (Rajdhani/Orbitron are still installed); --keep-fonts is the old name for that
 #   --keep-wallpaper  leave your wallpaper alone (the Daemon wallpaper is still installed)
 #   --no-kvantum      skip the Kvantum widget style (default: Kvantum is required, as the theme is drawn for it)
 #   --keep-vscode     don't install or select the VS Code themes (done only if `code` is installed)
@@ -29,7 +30,7 @@ DATA="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP_ROOT="${DAEMON_BACKUP_ROOT:-$HERE/backup}"
 NOVAL="__UNSET__"
-APPLY=1 FONTS=1 WALL=1 KVANTUM=1 VSCODE=1 VARIANT="" AUTO="" REINSTALL=0
+APPLY=1 FONTS=0 WALL=1 KVANTUM=1 VSCODE=1 VARIANT="" AUTO="" REINSTALL=0
 declare -A KEEPFONT=()
 # shellcheck source=lib/variants.sh
 source "$HERE/lib/variants.sh"
@@ -41,11 +42,12 @@ for a in "$@"; do
         --auto)           AUTO=1 ;;
         --reinstall)      REINSTALL=1 ;;
         --files-only)     APPLY=0 ;;
+        --fonts)          FONTS=1 ;;
         --keep-fonts)     FONTS=0 ;;
         --keep-wallpaper) WALL=0 ;;
         --no-kvantum)     KVANTUM=0 ;;
         --keep-vscode)    VSCODE=0 ;;
-        -h|--help)        sed -n '2,22p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        -h|--help)        sed -n '2,23p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
         *) echo "unknown option: $a (see --help)" >&2; exit 2 ;;
     esac
 done
@@ -69,6 +71,13 @@ if [[ -e $BACKUP_ROOT/current ]] && (( REINSTALL )); then
     done
     echo "0/5  Reinstall: removing the installed copy first (it was on the $prev variant${was_auto:+, with day/night switching})"
     bash "$HERE/uninstall.sh" >/dev/null || fail "uninstall.sh failed; nothing was reinstalled"
+    # an older install may have set the theme's fonts, so its uninstall just put the pre-install ones back:
+    # without --fonts, restore what you had a moment ago (not recorded, so a later uninstall leaves them alone)
+    if (( ! FONTS )); then
+        for gk in "${!KEEPFONT[@]}"; do
+            [[ -n ${KEEPFONT[$gk]} ]] && kwriteconfig6 --file kdeglobals --group "${gk%/*}" --key "${gk#*/}" -- "${KEEPFONT[$gk]}"
+        done
+    fi
 fi
 VARIANT=${VARIANT:-light}
 daemon_variant "$VARIANT"
@@ -259,7 +268,7 @@ if (( FONTS )); then
     if [[ -n ${KEEPFONT[General/font]:-} ]]; then echo "     fonts             kept as you had them ($(kreadconfig6 --file kdeglobals --group General --key font | cut -d, -f1,2))"
     else echo "     fonts             Rajdhani Medium 10 / Hack 10 / Orbitron 8 (titles)"; fi
 else
-    echo "     fonts             unchanged (--keep-fonts)"
+    echo "     fonts             yours, unchanged (the theme's fonts: install.sh --fonts)"
 fi
 
 apply_wallpaper() {  # remember each desktop's wallpaper, then point every desktop at the Daemon package
@@ -321,8 +330,9 @@ trap - ERR
 cat <<EOF
 
 Installed. $V_LABEL is active; both themes are in System Settings > Colors & Themes > Global Theme.
-Log out and back in once: that is when the Orbitron window titles appear (KWin reads that font only at
-startup) and when already-open applications pick up the new fonts and widget style.
+Log out and back in once: that is when already-open applications pick up the new widget style$( ((FONTS)) &&
+echo " and fonts,
+and when the Orbitron window titles appear (KWin reads that font only at startup)").
 Switch:  bash $HERE/switch.sh light | dark | auto | toggle   (or search "Daemon 2.0" in the launcher)
 Undo:    bash $HERE/uninstall.sh
 EOF
