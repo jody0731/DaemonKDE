@@ -110,8 +110,8 @@ is_variant() {  # is_variant dark|light : every per-variant setting points at th
        $(val konsolerc 'Desktop Entry' DefaultProfile) == "$pr" && $(cat "$DAEMON_BACKUP_ROOT/current/variant" 2>/dev/null) == "$1" ]]
 }
 
-echo "== 4. Full install (light is the default)"
-out=$(bash "$INSTALL" 2>&1); rc=$?
+echo "== 4. Full install with --fonts (light is the default)"
+out=$(bash "$INSTALL" --fonts 2>&1); rc=$?
 [[ $rc -eq 0 ]] && ok "install exits 0" || { bad "install exits 0 (rc=$rc)"; echo "$out" | tail -5 | sed 's/^/        /'; }
 [[ $(val kdeglobals General ColorScheme) == Daemon2Light ]]                    && ok "colors: Daemon2Light"       || bad "colors"
 [[ $(val kdeglobals Icons Theme) == Daemon-Icons-Light ]]                      && ok "icons: Daemon-Icons-Light"  || bad "icons"
@@ -169,10 +169,10 @@ bash "$SWITCH" toggle >/dev/null 2>&1 && is_variant light && ok "switch.sh toggl
 bash "$SWITCH" dark >/dev/null 2>&1
 themefont=$(val kdeglobals General font); myfont="Rajdhani SemiBold,12,-1,5,600,0,0,0,0,0,0,0,0,0,0,1,Regular"
 kwriteconfig6 --file kdeglobals --group General --key font "$myfont"   # a font you tuned after installing
-out=$(bash "$INSTALL" --reinstall 2>&1); rc=$?
-[[ $(val kdeglobals General font) == "$myfont" ]] && ok "--reinstall keeps the fonts you changed" || bad "reinstall font: $(val kdeglobals General font)"
+out=$(bash "$INSTALL" --reinstall --fonts 2>&1); rc=$?
+[[ $(val kdeglobals General font) == "$myfont" ]] && ok "--reinstall --fonts keeps the fonts you changed" || bad "reinstall font: $(val kdeglobals General font)"
 [[ $rc -eq 0 ]] && is_variant dark && ok "install.sh --reinstall exits 0 and keeps the dark variant" || { bad "reinstall (rc=$rc)"; echo "$out" | tail -5 | sed 's/^/        /'; }
-bash "$INSTALL" --reinstall --light >/dev/null 2>&1 && is_variant light && ok "install.sh --reinstall --light switches to light" || bad "reinstall --light"
+bash "$INSTALL" --reinstall --light --fonts >/dev/null 2>&1 && is_variant light && ok "install.sh --reinstall --light switches to light" || bad "reinstall --light"
 kwriteconfig6 --file kdeglobals --group General --key font "$themefont"
 [[ "$(fingerprint)" == "$installed" ]] && ok "...two reinstalls later, exactly as the first install" || { bad "reinstall = as installed"; diff <(echo "$installed") <(fingerprint) | head -8 | sed 's/^/        /'; }
 
@@ -202,6 +202,19 @@ bash "$UNINSTALL" >/dev/null 2>&1
 rm -rf "$XDG_DATA_HOME/color-schemes/Daemon2.colors" "$XDG_DATA_HOME/icons/Daemon-Icons"
 rmdir "$XDG_DATA_HOME/color-schemes" "$XDG_DATA_HOME/icons" 2>/dev/null   # the test made these, not install.sh
 same_as_baseline && ok "...and nothing else is left behind" || { bad "nothing left behind"; show_diff; }
+
+echo "== 8b. Without --fonts, install and reinstall leave your fonts alone"
+bash "$INSTALL" >/dev/null 2>&1; rc=$?
+[[ $rc -eq 0 && $(val kdeglobals General font) == "(unset)" && $(val kdeglobals WM activeFont) == "(unset)" ]] && is_variant light &&
+    ok "install without --fonts: light variant, fonts not set" || bad "default install fonts (rc=$rc): $(val kdeglobals General font) / $(val kdeglobals WM activeFont)"
+! grep -q "^CFG.*font" "$DAEMON_BACKUP_ROOT/current/state.txt" && ok "...and no font is in the install record" || bad "default install recorded fonts"
+myfont="IBM Plex Mono,11,-1,5,500,0,0,0,0,0,0,0,0,0,0,1"
+kwriteconfig6 --file kdeglobals --group General --key font "$myfont"
+bash "$INSTALL" --reinstall >/dev/null 2>&1 && [[ $(val kdeglobals General font) == "$myfont" ]] && is_variant light &&
+    ok "--reinstall without --fonts keeps your font" || bad "default reinstall font: $(val kdeglobals General font)"
+kwriteconfig6 --file kdeglobals --group General --key font --delete
+bash "$UNINSTALL" >/dev/null 2>&1
+same_as_baseline && ok "...and uninstall returns to the exact baseline" || { bad "default install: back to baseline"; show_diff; }
 
 python3 - "$NEST/shots/3-light-after-relogin.png" "$GALLERY/zoom-fonts.png" <<'PY' 2>/dev/null
 import sys
