@@ -101,6 +101,11 @@ fi
 daemon_variant "$WANT"
 [[ $AUTO_NOW == true ]] && kwriteconfig6 --notify --file kdeglobals --group KDE --key AutomaticLookAndFeel false
 daemon_apply_global >/dev/null 2>&1 || fail "plasma-apply-lookandfeel could not apply $V_LABEL"
+# Electron apps (Claude Desktop) restyle GTK on the portal's light/dark signal, which comes ~150 ms before KDE
+# rewrites ~/.config/gtk-3.0/colors.css, so they read the previous variant's colours and end up on the opposite
+# one (2026-10-23). A second apply, once the file is written, sends the signal again and puts them right.
+sleep 1
+daemon_apply_global >/dev/null 2>&1 || true
 sync_apps force
 daemon_notify
 notify "$V_LABEL is now active$([[ $AUTO_NOW == true ]] && echo '; day/night switching is off (switch.sh auto turns it back on)'). Restart open applications for their widgets to follow."
