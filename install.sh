@@ -17,6 +17,8 @@
 #   --keep-wallpaper  leave your wallpaper alone (the Daemon wallpaper is still installed)
 #   --no-kvantum      skip the Kvantum widget style (default: Kvantum is required, as the theme is drawn for it)
 #   --keep-vscode     don't install or select the VS Code themes (done only if `code` is installed)
+#   --follower        also start the theme follower at login (switch.sh --follow), so Konsole follows day/night
+#                     switching too. Default: off (VS Code follows by itself); a reinstall keeps it if it was on
 #
 # Every added path and the previous value of every changed setting go to backup/<timestamp>/state.txt
 # (fields separated by 0x1f; backup/current points at it); uninstall.sh puts everything back from
@@ -30,7 +32,7 @@ DATA="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP_ROOT="${DAEMON_BACKUP_ROOT:-$HERE/backup}"
 NOVAL="__UNSET__"
-APPLY=1 FONTS=0 WALL=1 KVANTUM=1 VSCODE=1 VARIANT="" AUTO="" REINSTALL=0
+APPLY=1 FONTS=0 WALL=1 KVANTUM=1 VSCODE=1 VARIANT="" AUTO="" REINSTALL=0 FOLLOW=""
 declare -A KEEPFONT=()
 # shellcheck source=lib/variants.sh
 source "$HERE/lib/variants.sh"
@@ -47,6 +49,7 @@ for a in "$@"; do
         --keep-wallpaper) WALL=0 ;;
         --no-kvantum)     KVANTUM=0 ;;
         --keep-vscode)    VSCODE=0 ;;
+        --follower)       FOLLOW=1 ;;
         -h|--help)        sed -n '2,23p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
         *) echo "unknown option: $a (see --help)" >&2; exit 2 ;;
     esac
@@ -65,6 +68,7 @@ if [[ -e $BACKUP_ROOT/current ]] && (( REINSTALL )); then
         [[ -n $VARIANT ]] || AUTO=${AUTO:-1}
     fi
     VARIANT=${VARIANT:-$prev}
+    [[ -e $CONF/autostart/daemon-theme-follow.desktop ]] && FOLLOW=${FOLLOW:-1}
     # fonts are yours to tune after installing; a reinstall keeps them instead of the theme's defaults
     for gk in General/font General/menuFont General/toolBarFont General/smallestReadableFont General/fixed WM/activeFont; do
         KEEPFONT[$gk]=$(kreadconfig6 --file kdeglobals --group "${gk%/*}" --key "${gk#*/}")
@@ -319,10 +323,14 @@ else
     echo "     wallpaper         unchanged (--keep-wallpaper)"
 fi
 
-follower
 echo "$VARIANT" > "$BACKUP/variant"
-setsid nohup bash "$HERE/switch.sh" --follow >/dev/null 2>&1 < /dev/null &
-echo "     follower          started; it starts with every login from ~/.config/autostart"
+if [[ $FOLLOW == 1 ]]; then
+    follower
+    setsid nohup bash "$HERE/switch.sh" --follow >/dev/null 2>&1 < /dev/null &
+    echo "     follower          started; it starts with every login from ~/.config/autostart"
+else
+    echo "     follower          off: Konsole changes theme only with switch.sh (--follower turns it on)"
+fi
 
 echo "5/5  Tell running applications"
 daemon_notify

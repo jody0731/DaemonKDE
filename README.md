@@ -70,10 +70,11 @@ Any of these:
   (`light`, `dark` and `toggle` turn day/night switching off).
 - **App launcher / KRunner**: search *Daemon 2.0* or *Daemon 2.0 Light*.
 
-Colors, icons, the panel, window frames and the wallpaper change at once. Konsole (default profile
-and every open tab) and VS Code follow too, however the switch happened: a small watcher
-(`switch.sh --follow`, started from `~/.config/autostart`) keeps them in step with the global theme,
-and VS Code follows the system's light/dark preference itself. Already-open applications keep their
+Colors, icons, the panel, window frames and the wallpaper change at once. VS Code follows the
+system's light/dark preference itself. Konsole (default profile and every open tab) follows a
+switch made with `switch.sh`; to have it follow day/night switching and the Global Theme page too,
+install with `--follower`, which starts a small watcher (`switch.sh --follow`) from
+`~/.config/autostart`. It is off by default. Already-open applications keep their
 old Kvantum widgets until they are restarted (or you log out and in).
 
 ## Update an existing install
