@@ -17,8 +17,8 @@
 #   --keep-wallpaper  leave your wallpaper alone (the Daemon wallpaper is still installed)
 #   --no-kvantum      skip the Kvantum widget style (default: Kvantum is required, as the theme is drawn for it)
 #   --keep-vscode     don't install or select the VS Code themes (done only if `code` is installed)
-#   --follower        also start the theme follower at login (switch.sh --follow), so Konsole follows day/night
-#                     switching too. Default: off (VS Code follows by itself); a reinstall keeps it if it was on
+#   --follower        also start the theme follower at login (switch.sh --follow), so Konsole and VS Code follow
+#                     day/night switching too. Default: off (they switch with switch.sh); a reinstall keeps it if it was on
 #
 # Every added path and the previous value of every changed setting go to backup/<timestamp>/state.txt
 # (fields separated by 0x1f; backup/current points at it); uninstall.sh puts everything back from
@@ -297,13 +297,15 @@ if (( VSCODE )) && command -v code >/dev/null; then
     rec VSCEXT undefined_publisher.daemon-2-0
     rec VSCTHEME "$VSC_SETTINGS" "$(python3 "$HERE/vscode/theme-setting.py" "$VSC_SETTINGS" get)"
     daemon_apply_vscode "$VSC_SETTINGS"
-    # VS Code follows the system's light/dark preference by itself with these three
+    # switch.sh sets workbench.colorTheme itself; VS Code's own light/dark detection stays off, as Electron on KDE
+    # misreads the system's preference (2026-10-23: dark desktop, VS Code on Light). The preferred pair is for when
+    # you turn the detection back on
     vsc_set workbench.preferredLightColorTheme "Daemon-2.0 Light"
     vsc_set workbench.preferredDarkColorTheme  "Daemon-2.0"
-    vsc_set window.autoDetectColorScheme       true
+    vsc_set window.autoDetectColorScheme       false
     # KDE's (Daemon) window frame instead of VS Code's own title bar, like every other app
     vsc_set window.titleBarStyle native
-    echo "     VS Code           Daemon-2.0 / Daemon-2.0 Light, following the system; native title bar; restart VS Code"
+    echo "     VS Code           Daemon-2.0 / Daemon-2.0 Light, switched by switch.sh; native title bar; restart VS Code"
 elif (( VSCODE )); then
     echo "     VS Code           not installed; skipped"
 fi

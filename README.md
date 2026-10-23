@@ -70,9 +70,8 @@ Any of these:
   (`light`, `dark` and `toggle` turn day/night switching off).
 - **App launcher / KRunner**: search *Daemon 2.0* or *Daemon 2.0 Light*.
 
-Colors, icons, the panel, window frames and the wallpaper change at once. VS Code follows the
-system's light/dark preference itself. Konsole (default profile and every open tab) follows a
-switch made with `switch.sh`; to have it follow day/night switching and the Global Theme page too,
+Colors, icons, the panel, window frames and the wallpaper change at once. Konsole (default
+profile and every open tab) and VS Code follow a switch made with `switch.sh`; to have them follow day/night switching and the Global Theme page too,
 install with `--follower`, which starts a small watcher (`switch.sh --follow`) from
 `~/.config/autostart`. It is off by default. Already-open applications keep their
 old Kvantum widgets until they are restarted (or you log out and in).
@@ -114,8 +113,8 @@ also leave the cursor, splash screen and wallpaper alone (the wallpaper package 
 Kvantum's theme setting stays `Daemon`: the `kvantum` style draws `Daemon`, `kvantum-dark` draws
 `DaemonDark`, so a global theme can switch Kvantum by switching the widget style.
 
-VS Code also gets `window.autoDetectColorScheme` with the two themes as preferred light/dark themes,
-and `window.titleBarStyle: native`, so KDE draws its frame like every other window.
+VS Code is switched by `switch.sh` (`workbench.colorTheme`); its own `window.autoDetectColorScheme` is turned
+off, as Electron apps on KDE misread the system's light/dark preference. It also gets `window.titleBarStyle: native`, so KDE draws its frame like every other window.
 
 ## Layout
 
