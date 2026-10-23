@@ -5,9 +5,10 @@
 #   bash switch.sh status                  which one is active, and whether day/night switching is on
 #   --notify   also show a desktop notification (used by the "Daemon 2.0" app-launcher entries)
 #
-# The same can be done in System Settings > Colors & Themes > Global Theme. Either way Konsole and
-# VS Code follow: `switch.sh --follow` runs from ~/.config/autostart and watches the global theme
-# (`--sync` is its one-shot step). Already-open applications switch colors at once; their Kvantum
+# Manual switching (light/dark/toggle) is the default; install.sh turns day/night on only with --auto.
+# The same can be done in System Settings > Colors & Themes > Global Theme. switch.sh moves Konsole
+# and VS Code along; for switches made elsewhere, VS Code follows by itself and Konsole only with the
+# follower (`switch.sh --follow`, install.sh --follower; `--sync` is its one-shot step). Already-open applications switch colors at once; their Kvantum
 # widgets switch when they are restarted (or after logging out and in).
 set -Eeuo pipefail
 
